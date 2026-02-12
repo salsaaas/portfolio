@@ -13,7 +13,7 @@ import {
   ArrowUpRight,
   Sparkles,
   Zap,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react';
 import {
   PROJECTS,
@@ -23,8 +23,10 @@ import {
   HARD_SKILLS,
   SOFT_SKILLS,
   EMAIL,
-  LINKEDIN
 } from './constants';
+
+// ✅ Pastikan link LinkedIn sesuai yang kamu mau (dipakai di seluruh file)
+const LINKEDIN_URL = 'https://www.linkedin.com/in/salsabila-ss/';
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,42 +51,58 @@ const Nav = () => {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? 'glass-nav border-b border-slate-100 py-4 shadow-sm'
-          : 'bg-transparent py-6'
+        scrolled ? 'glass-nav border-b border-slate-100 py-4 shadow-sm' : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <a
           href="#"
           className="text-base md:text-xl font-bold tracking-tight text-slate-900 inline-flex items-center max-w-[68vw] md:max-w-none"
+          onClick={() => setIsOpen(false)}
         >
           <span className="truncate">Salsabila Septi Sukmayanti</span>
-          {/* dot center */}
           <span className="ml-2 inline-block w-2 h-2 rounded-full bg-blue-600 flex-shrink-0" />
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex space-x-8 items-center">
-          {navLinks.map((link) => (
+        <div className="hidden md:flex items-center gap-10">
+          <div className="flex items-center gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
+
+          {/* ✅ CTA kanan: LinkedIn menonjol + Hire Me */}
+          <div className="flex items-center gap-3">
             <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 inline-flex items-center gap-2"
+              aria-label="LinkedIn"
+              title="LinkedIn"
             >
-              {link.name}
+              <Linkedin size={18} />
+              LinkedIn
             </a>
-          ))}
-          <a
-            href={`mailto:${EMAIL}`}
-            className="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
-          >
-            Hire Me
-          </a>
+
+            <a
+              href={`mailto:${EMAIL}`}
+              className="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
+            >
+              Hire Me
+            </a>
+          </div>
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
+        <button className="md:hidden p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -102,6 +120,29 @@ const Nav = () => {
               {link.name}
             </a>
           ))}
+
+          {/* ✅ Mobile CTA biar jelas juga */}
+          <div className="pt-6 border-t border-slate-100 flex flex-col gap-3">
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full px-5 py-3 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+              onClick={() => setIsOpen(false)}
+            >
+              <Linkedin size={20} />
+              LinkedIn
+            </a>
+
+            <a
+              href={`mailto:${EMAIL}`}
+              className="w-full px-5 py-3 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2"
+              onClick={() => setIsOpen(false)}
+            >
+              <Mail size={20} />
+              Hire Me
+            </a>
+          </div>
         </div>
       )}
     </nav>
@@ -144,10 +185,8 @@ const App: React.FC = () => {
 
           {/* Central Profile Image with Animated Floating Badges */}
           <div className="relative inline-block mb-16 group">
-            {/* Background Decorative Element */}
             <div className="absolute inset-0 bg-blue-600 blur-[100px] opacity-10 rounded-full scale-150 -z-10"></div>
 
-            {/* Main Photo Container */}
             <div className="relative w-64 h-80 md:w-80 md:h-[420px] mx-auto rounded-[3rem] overflow-hidden border-8 border-white shadow-2xl z-10 transition-all duration-500 group-hover:shadow-blue-200">
               <img
                 src="/profile_photo.png"
@@ -160,7 +199,7 @@ const App: React.FC = () => {
               />
             </div>
 
-            {/* Badge 1: Academic Honors (kiri atas) */}
+            {/* Badge 1 */}
             <div className="absolute top-10 -left-10 md:-left-32 animate-float z-20">
               <div className="bg-white px-5 py-3 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white">
@@ -173,20 +212,20 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Badge 2: Research Publication (geser kanan biar ga nutup muka) */}
-<div className="absolute top-36 -right-20 md:top-28 md:-right-60 animate-float-delayed z-20">
-  <div className="bg-white px-5 py-3 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-3">
-    <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white">
-      <TrendingUp size={18} />
-    </div>
-    <div className="text-left">
-      <p className="text-[10px] font-bold text-slate-400 uppercase">Research Publication</p>
-      <p className="text-sm font-bold text-slate-900">International Publication (Scopus Q3)</p>
-    </div>
-  </div>
-</div>
+            {/* Badge 2 */}
+            <div className="absolute top-36 -right-20 md:top-28 md:-right-60 animate-float-delayed z-20">
+              <div className="bg-white px-5 py-3 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white">
+                  <TrendingUp size={18} />
+                </div>
+                <div className="text-left">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Research Publication</p>
+                  <p className="text-sm font-bold text-slate-900">International Publication (Scopus Q3)</p>
+                </div>
+              </div>
+            </div>
 
-            {/* Badge 3: Machine Learning (bawah kanan) */}
+            {/* Badge 3 */}
             <div className="absolute -bottom-8 -right-2 md:-bottom-10 md:-right-24 animate-float-slow z-20">
               <div className="bg-white px-5 py-3 rounded-2xl shadow-xl border border-slate-50 flex items-center gap-3">
                 <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
@@ -210,16 +249,20 @@ const App: React.FC = () => {
 
             <div className="flex items-center gap-6">
               <a
-                href={LINKEDIN}
+                href={LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-4 bg-slate-50 rounded-2xl text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all border border-slate-100"
+                aria-label="LinkedIn"
+                title="LinkedIn"
               >
                 <Linkedin size={24} />
               </a>
               <a
                 href={`mailto:${EMAIL}`}
                 className="p-4 bg-slate-50 rounded-2xl text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all border border-slate-100"
+                aria-label="Email"
+                title="Email"
               >
                 <Mail size={24} />
               </a>
@@ -338,9 +381,7 @@ const App: React.FC = () => {
                 <div className="inline-flex items-center px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
                   Featured Paper
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-                  {PUBLICATION.title}
-                </h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">{PUBLICATION.title}</h3>
                 <div className="flex flex-wrap items-center gap-6 mb-8 text-slate-400">
                   <div className="flex items-center gap-2">
                     <FileText size={18} className="text-blue-500" />
@@ -508,7 +549,8 @@ const App: React.FC = () => {
                     <p className="text-xl font-bold text-slate-900">{EMAIL}</p>
                   </div>
                 </a>
-                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 group">
+
+                <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 group">
                   <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
                     <Linkedin size={24} />
                   </div>
@@ -593,10 +635,22 @@ const App: React.FC = () => {
             </a>
           </div>
           <div className="flex gap-4">
-            <a href={LINKEDIN} className="text-slate-400 hover:text-blue-600 transition-colors">
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-blue-600 transition-colors"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+            >
               <Linkedin size={20} />
             </a>
-            <a href={`mailto:${EMAIL}`} className="text-slate-400 hover:text-blue-600 transition-colors">
+            <a
+              href={`mailto:${EMAIL}`}
+              className="text-slate-400 hover:text-blue-600 transition-colors"
+              aria-label="Email"
+              title="Email"
+            >
               <Mail size={20} />
             </a>
           </div>
